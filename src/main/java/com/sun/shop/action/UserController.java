@@ -5,12 +5,13 @@ import com.sun.shop.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -34,10 +35,19 @@ public class UserController {
         return "/user/showInfo";
     }
 
-    @RequestMapping("/showAll")
-    public @ResponseBody List<User> showUserInfos() {
+    @RequestMapping(value = "/showAll", method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public  List<User> showUserInfos() {
         LOGGER.info("json返回全部用户的信息");
         List<User> userInfos = userService.findAll();
         return userInfos;
+    }
+
+    @RequestMapping(value = "/login",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public String login(String userName, String password, HttpServletRequest request){
+        System.out.println(userName);
+        System.out.println(password);
+        return "success";
     }
 }
